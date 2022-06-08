@@ -7,20 +7,16 @@ const routes = [
     alias: "/login",
     name: "login",
     component: LoginView,
+    meta: { disallowAuthed: true },
   },
   {
     path: "/welcome",
     name: "welcome",
-    // route level code-splitting
-    // this generates a separate chunk (welcome.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "welcome" */ "@/views/WelcomeView.vue"),
-
     // only authenticated users can enter this page
     meta: { requiresAuth: true },
   },
-  // will match everything and put it under `$route.params.pathMatch`
   {
     path: "/:pathMatch(.*)*",
     name: "NotFound",
@@ -35,6 +31,21 @@ const router = createRouter({
   scrollBehavior(to, from, savedPosition) {
     return savedPosition || { top: 0, behavior: "smooth" };
   },
+});
+
+// Global Navigation Guard
+router.beforeEach((to) => {
+  const isLogged = window.localStorage.getItem("username");
+  if (to.meta.requiresAuth && !isLogged) {
+    return { name: "login", query: { redirect: to.fullPath } };
+  }
+});
+
+router.beforeEach((to) => {
+  const isLogged = window.localStorage.getItem("username");
+  if (to.meta.disallowAuthed && isLogged) {
+    return { name: "welcome", query: { redirect: to.fullPath } };
+  }
 });
 
 export default router;

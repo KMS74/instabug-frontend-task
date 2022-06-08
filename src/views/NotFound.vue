@@ -6,6 +6,9 @@
     <div class="not-found__content">
       <h2>404 - Page Not Found!</h2>
       <p>Sorry, that page dosn't exits. What would like to do?</p>
+      <button>
+        <router-link :to="{ name: 'welcome' }">Go to Home</router-link>
+      </button>
     </div>
   </div>
 </template>
@@ -32,6 +35,22 @@ export default {
     }
     p {
       color: #a6a6a6;
+    }
+    button {
+      margin: 20px 0;
+      min-width: 150px;
+      border-radius: 4px;
+      border: none;
+      background-color: #fff;
+      cursor: pointer;
+      padding: 0.4rem;
+      font-size: 1rem;
+      height: 40px;
+      background-color: #00287a;
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
     }
   }
 }

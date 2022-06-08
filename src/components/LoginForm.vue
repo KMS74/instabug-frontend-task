@@ -7,7 +7,7 @@
           alt="instabug-logo"
         />
       </div>
-      <h1>Log in to instabug</h1>
+      <h2>Log in to instabug</h2>
       <div class="social-login-buttons">
         <button class="btn btn--googel">
           <span class="btn__icon">
@@ -43,39 +43,70 @@
       <span id="divider-line">OR</span>
     </div>
 
-    <form class="form">
+    <Form
+      @submit="onSubmit"
+      class="form"
+      :validation-schema="schema"
+      v-slot="{ meta }"
+    >
+      <div v-if="!isAccptedUser && meta.valid" class="incorrect-error">
+        Your email and/or your password are incorrect
+      </div>
       <div class="input-group">
         <label class="input-group__label" for="email"> Work Email </label>
-        <input
-          id="email"
-          class="input-group__input"
+        <Field
           type="text"
+          name="email"
           placeholder="you@company.com"
           v-model="email"
-        />
+          v-slot="{ field, meta }"
+        >
+          <input
+            id="email"
+            class="input-group__input"
+            :class="{
+              'is-invalid': !meta.valid && meta.touched,
+            }"
+            type="email"
+            v-bind="field"
+          />
+        </Field>
+        <ErrorMessage class="error-msg" name="email"></ErrorMessage>
       </div>
       <div class="input-group">
         <div class="input-group--pre">
-          <label class="input-group__label" for="passwords">Password</label>
+          <label class="input-group__label" for="password">Password</label>
           <span class="forget-pass"> Forget Password? </span>
         </div>
-        <input
-          class="input-group__input"
-          id="password"
-          type="password"
+        <Field
+          name="password"
           placeholder="8+ Characters"
           v-model="password"
-        />
+          v-slot="{ field, meta }"
+        >
+          <input
+            id="password"
+            class="input-group__input"
+            :class="{
+              'is-invalid': !meta.valid && meta.touched,
+            }"
+            v-bind="field"
+            type="password"
+          />
+        </Field>
+        <ErrorMessage class="error-msg" name="password"></ErrorMessage>
       </div>
       <div class="input-group">
-        <!-- TODO bind disabled dynamically  -->
-        <button class="btn btn--login">Log in</button>
+        <button :disabled="!meta.valid" type="submit" class="btn btn--login">
+          Log in
+        </button>
+
         <div class="input-group--append">
           <p>Don't have an account? <span>Sign up</span></p>
           <p>Login via SSO</p>
         </div>
       </div>
-    </form>
+    </Form>
 
     <div class="form--append">
       <div class="trusted-companies">
@@ -93,12 +124,19 @@
 </template>
 
 <script>
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
 export default {
   name: "LoginForm",
   data() {
+    const schema = yup.object({
+      email: yup.string().required().email(),
+      password: yup.string().required().min(8),
+    });
     return {
       email: "",
       password: "",
+      schema,
       loginCredentials: [
         { email: "mohamed@instabug.com", password: "A12345678" },
         { email: "mohamed2@instabug.com", password: "A12345678" },
@@ -110,6 +148,42 @@ export default {
         { email: "mohamed7@instabug.com", password: "A12345678" },
       ],
     };
+  },
+  computed: {
+    isAccptedUser() {
+      return this.loginCredentials.find(
+        (credential) =>
+          credential.email === this.email &&
+          credential.password === this.password
+      );
+    },
+  },
+
+  methods: {
+    onSubmit(values) {
+      // TODO: validate pass input(length > 8 and
+      //  must contain at least 1 uppercase letters and one number)
+
+      if (this.isAccptedUser) {
+        console.log(values);
+        // window.username = this.extractUserName(values.email);
+        window.localStorage.setItem(
+          "username",
+          this.extractUserName(values.email)
+        );
+        this.$router.push("/welcome");
+      }
+    },
+    extractUserName(email) {
+      const index = email.indexOf("@");
+      const username = email.substring(0, index);
+      return username;
+    },
+  },
+  components: {
+    Form,
+    ErrorMessage,
+    Field,
   },
 };
 </script>
@@ -191,16 +265,16 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  gap: 16px;
+  gap: 8px;
   &--pre {
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
     width: 100%;
-    h1 {
-      font-size: 2rem;
-      margin: 16px 0;
+    h2 {
+      font-size: 1.5rem;
+      margin: 5px 0;
       font-weight: 400;
     }
   }
@@ -234,6 +308,7 @@ export default {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+
   &--pre {
     display: flex;
     flex-flow: row nowrap;
@@ -272,6 +347,7 @@ export default {
     box-sizing: border-box;
     outline: 0;
     border: 1px solid #dcdee3;
+    margin-bottom: 4px;
     &:focus {
       border-color: #09f;
       box-shadow: inset 0 0 4px 0 #09f;
@@ -281,5 +357,23 @@ export default {
       font-size: 13px;
     }
   }
+}
+.is-valid {
+  color: #03ba66;
+  border: 1px solid #03ba66;
+}
+.is-invalid {
+  color: rgb(216, 21, 21);
+  border: 1px solid rgb(216, 21, 21);
+}
+.error-msg {
+  color: rgb(216, 21, 21);
+}
+.incorrect-error {
+  padding: 8px 16px;
+  background-color: #ffebee;
+  border: 1px solid #ef9a9a;
+  border-radius: 4px;
+  text-align: center;
 }
 </style>
