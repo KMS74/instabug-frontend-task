@@ -130,8 +130,19 @@ export default {
   name: "LoginForm",
   data() {
     const schema = yup.object({
-      email: yup.string().required().email(),
-      password: yup.string().required().min(8),
+      email: yup.string().required().email("Enter a valid eamil address."),
+      password: yup
+        .string()
+        .required()
+        .min(6, "Password must be 6 characters or more.")
+        .matches(
+          /^(?=.*[A-Z])/,
+          "Password must contain at least one uppercase character."
+        )
+        .matches(
+          /^(?=.{6,20}$)\D*\d/,
+          "Password must contain at least one number."
+        ),
     });
     return {
       email: "",
