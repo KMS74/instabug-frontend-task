@@ -130,10 +130,13 @@ export default {
   name: "LoginForm",
   data() {
     const schema = yup.object({
-      email: yup.string().required().email("Enter a valid eamil address."),
+      email: yup
+        .string()
+        .required("Email is required field.")
+        .email("Enter a valid eamil address."),
       password: yup
         .string()
-        .required()
+        .required("Password is required field.")
         .min(6, "Password must be 6 characters or more.")
         .matches(
           /^(?=.*[A-Z])/,
@@ -172,9 +175,6 @@ export default {
 
   methods: {
     onSubmit(values) {
-      // TODO: validate pass input(length > 8 and
-      //  must contain at least 1 uppercase letters and one number)
-
       if (this.isAccptedUser) {
         console.log(values);
         // window.username = this.extractUserName(values.email);
