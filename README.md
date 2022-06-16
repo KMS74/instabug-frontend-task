@@ -23,6 +23,7 @@ Pages & routes:
     page
 login functionality:
 It should be local u should have the following array with objects in your code
+```
 [
 { email: ‘mohamed@instabug.com’, password: ‘A12345678’ },
 { email: ‘mohamed1@instabug.com’, password: ‘A12345678’ },
@@ -33,6 +34,7 @@ It should be local u should have the following array with objects in your code
 { email: ‘mohamed6@instabug.com’, password: ‘A12345678’ },
 { email: ‘mohamed7@instabug.com’, password: ‘A12345678’ },
 ]
+```
 If the entered username and password match any of the above the user should be redirected to
 the welcome page
 Redirect rules:
