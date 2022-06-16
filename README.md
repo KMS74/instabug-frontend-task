@@ -1,29 +1,29 @@
 # Frontend Intern task
-### Demo Version:  
+## Demo Version:  
 https://instabug-frontend-task.netlify.app/
 
-**●** Build a small app that consists of 3 pages (login. Welcome, 404) pages
-It is preferred to use VUE js
-It is preferred to use SASS/SCSS
-○ It is preferred to not use any CSS framework
-You must use GitHub, GitLab, or any other source control tools
-You must Deploy the app on Netlify, GitHub pages, or any other tool
-It is a plus to create the illustration on the 404 pages with SASS
-Try to follow consistent guidelines in your code
+## Used Technologies:
+* Vuejs
+* SCSS
+*  VeeValidate Form Validation
+*  Vue Router
+## Build a small app that consists of 3 pages (login. Welcome, 404) pages
+* It is preferred to use VUE js
+* It is preferred to use SASS/SCSS
+* It is preferred to not use any CSS framework
+* You must use GitHub, GitLab, or any other source control tools
+* You must Deploy the app on Netlify, GitHub pages, or any other tool
+* It is a plus to create the illustration on the 404 pages with SASS
+*Try to follow consistent guidelines in your code
 
-**●** Write automation tests for the login form using cypress
- You will need to implement 2 or more from the scenario mentioned in the automation section
-
-The APP requirements:
-Pages & routes:
-
-1. login page with route/login which contains the login form + slider
-2. welcome screen with route /welcome which will contain a welcome message + logout
+## The APP requirements:
+### Pages & routes:
+* login page with route/login which contains the login form + slider
+* welcome screen with route /welcome which will contain a welcome message + logout
     button
-3. 404 page with route /404 if u entered any route other than the above it redirects to 404
-    page
-login functionality:
-It should be local u should have the following array with objects in your code
+* 404 page with route /404 if u entered any route other than the above it redirects to 404 page
+### login functionality:
+* It should be local u should have the following array with objects in your code
 ```
 [
 { email: ‘mohamed@instabug.com’, password: ‘A12345678’ },
@@ -38,17 +38,15 @@ It should be local u should have the following array with objects in your code
 ```
 If the entered username and password match any of the above the user should be redirected to
 the welcome page
-Redirect rules:
-In case the user didn’t log in or he logged out he can’t access the welcome page if he opened it
+### Redirect rules:
+* In case the user didn’t log in or he logged out he can’t access the welcome page if he opened it
 via URL he will be redirected to the login
 
 
-In case the user logged once if he opened the login page via the URL it will redirect to the
+* In case the user logged once if he opened the login page via the URL it will redirect to the
 welcome page, Till the user logged out from the welcome page
 The above 2 cases are applied on refresh, open in a new tab, closed the tab and opened it
 again, closed the browser opened it again
-
-
 
 ## Project setup
 
