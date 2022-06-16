@@ -136,8 +136,6 @@ export default {
         .email("Enter a valid eamil address."),
       password: yup
         .string()
-        .required("Password is required field.")
-        .min(6, "Password must be 6 characters or more.")
         .matches(
           /^(?=.*[A-Z])/,
           "Password must contain at least one uppercase character."
@@ -145,7 +143,9 @@ export default {
         .matches(
           /^(?=.{6,20}$)\D*\d/,
           "Password must contain at least one number."
-        ),
+        )
+        .min(6, "Password must be 6 characters or more.")
+        .required("Password is required field."),
     });
     return {
       email: "",
